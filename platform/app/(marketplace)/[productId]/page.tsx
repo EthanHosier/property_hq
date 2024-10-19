@@ -271,10 +271,15 @@ export default function Example() {
     return <div>Property not found</div>;
   }
 
+  // Convert monthly price to yearly price
+  const monthlyPrice = parseInt(property.pcm.replace(/[^0-9]/g, ""), 10);
+  const yearlyPrice = monthlyPrice * 12;
+  const formattedYearlyPrice = `£${yearlyPrice.toLocaleString()} per year`;
+
   // Replace the hardcoded product data with the property data
   const product = {
     name: property.name,
-    price: property.pcm,
+    price: formattedYearlyPrice,
     rating: 4, // You might want to add a rating field to your PROPERTY_DATA if you have this information
     images: property.imageUrls.map((url, index) => ({
       id: index + 1,
