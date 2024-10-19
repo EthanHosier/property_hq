@@ -11,7 +11,10 @@ export default function MintNFT() {
   const [account, setAccount] = useState(null);
   const [minting, setMinting] = useState(false);
 
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+  const web3 = new Web3(
+    Web3.givenProvider ||
+      "https://base-sepolia.infura.io/v3/f890451fc96c4ddfb2f4ea45e00b66ef"
+  );
 
   const connectWallet = async () => {
     // @ts-ignore
