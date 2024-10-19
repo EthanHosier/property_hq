@@ -20,7 +20,7 @@ export default function MintNFT() {
     // @ts-ignore
     if (window.ethereum) {
       try {
-        // @ts-ignore
+        // @ts-ignores
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });

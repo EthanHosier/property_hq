@@ -4,7 +4,7 @@ import { auth } from "../../../services/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 
-export default function Login() {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -104,4 +104,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;
