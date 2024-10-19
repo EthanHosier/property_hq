@@ -31,7 +31,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/outline";
-import { PROPERTY_DATA } from "@/constants/property-data";
+import { PROPERTY_DATA, VENDOR_URLS } from "@/constants/property-data";
 
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"];
 const navigation = {
@@ -182,6 +182,12 @@ type Product = {
   bedrooms: string;
   bathrooms: string;
   imageUrls: string[];
+  roi: number;
+  pmi: number;
+  area: number;
+  occupancyRate: number;
+  vendor: string;
+  rentIncrease: number;
 };
 
 // Replace products1 with PROPERTY_DATA
@@ -824,28 +830,135 @@ export default function Example() {
                     <a
                       key={product.id}
                       href={`/${product.id}`}
-                      className="group"
+                      className="group relative"
                     >
-                      <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-lg">
-                        <img
-                          src={product.imageUrls[0]}
-                          alt={product.name}
-                          className="h-full w-full object-cover object-center group-hover:opacity-75"
-                        />
+                      <div
+                        style={{
+                          fontFamily: "Arial, sans-serif",
+                          maxWidth: "100%",
+                        }}
+                      >
+                        <div className="relative">
+                          <img
+                            src={product.imageUrls[0]}
+                            style={{
+                              width: "100%",
+                              height: "240px",
+                              objectFit: "cover",
+                            }}
+                            alt={product.name}
+                          />
+                          <span
+                            style={{
+                              position: "absolute",
+                              bottom: "10px",
+                              right: "10px",
+                              background: "rgba(0, 0, 0, 0.7)",
+                              backdropFilter: "blur(5px)",
+                              border: "1px solid rgba(255, 255, 255, 0.18)",
+                              borderRadius: "8px",
+                              padding: "4px 12px",
+                              color: "white",
+                              fontWeight: "bold",
+                              fontSize: "18px",
+                              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+                            }}
+                          >
+                            £
+                            {(
+                              parseInt(product.pcm.replace(/[^0-9]/g, "")) * 12
+                            ).toLocaleString()}
+                          </span>
+                        </div>
+
+                        <div
+                          style={{ paddingTop: "12px" }}
+                          className="relative"
+                        >
+                          <h2
+                            style={{
+                              margin: "0 0 8px",
+                              color: "#333",
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {product.name}
+                          </h2>
+
+                          <p
+                            style={{
+                              margin: "0 0 8px",
+                              color: "#666",
+                              fontSize: "14px",
+                            }}
+                          >
+                            {product.city}, {product.postcode}
+                          </p>
+
+                          <p
+                            style={{
+                              margin: "4px 0",
+                              color: "#555",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <strong>ROI:</strong> {product.roi}%
+                          </p>
+                          <p
+                            style={{
+                              margin: "4px 0",
+                              color: "#555",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <strong>Passive Monthly Income:</strong>{" "}
+                            {product.pmi}
+                          </p>
+                          <p
+                            style={{
+                              margin: "4px 0",
+                              color: "#555",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <strong>Area:</strong> {product.area} sq ft
+                          </p>
+                          <p
+                            style={{
+                              margin: "4px 0",
+                              color: "#555",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <strong>Occupancy Rate:</strong>{" "}
+                            {product.occupancyRate}%
+                          </p>
+                          <p
+                            style={{
+                              margin: "4px 0",
+                              color: "#555",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <strong>Rent Increase:</strong>{" "}
+                            {product.rentIncrease}%
+                          </p>
+                          <p
+                            style={{
+                              margin: "4px 0",
+                              color: "#555",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <img
+                              className="w-24 object-contain absolute bottom-0 right-0"
+                              src={VENDOR_URLS[product.vendor]}
+                              alt={product.vendor}
+                            />
+                          </p>
+                        </div>
                       </div>
-                      <div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
-                        <h3>{product.name}</h3>
-                        <p>{product.pcm}</p>
-                      </div>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Location: {product.city}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Bedrooms: {product.bedrooms}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Bathrooms: {product.bathrooms}
-                      </p>
                     </a>
                   ))}
                 </div>
@@ -858,18 +971,6 @@ export default function Example() {
                           scope="col"
                           className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Image
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
                           Price
                         </th>
                         <th
@@ -878,17 +979,43 @@ export default function Example() {
                         >
                           Location
                         </th>
+
                         <th
                           scope="col"
                           className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Bedrooms
+                          ROI
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Bathrooms
+                          PMI
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Area
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Occupancy Rate
+                        </th>
+
+                        <th
+                          scope="col"
+                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Rent Increase
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Vendor
                         </th>
                       </tr>
                     </thead>
@@ -896,26 +1023,37 @@ export default function Example() {
                       {products.map((product) => (
                         <tr key={product.id}>
                           <td className="px-3 py-4 whitespace-nowrap">
-                            <img
-                              src={product.imageUrls[0]}
-                              alt={product.name}
-                              className="h-16 w-16 object-cover"
-                            />
-                          </td>
-                          <td className="px-3 py-4 whitespace-nowrap">
-                            {product.name}
-                          </td>
-                          <td className="px-3 py-4 whitespace-nowrap">
-                            {product.pcm}
+                            £
+                            {(
+                              parseInt(product.pcm.replace(/[^0-9]/g, "")) * 12
+                            ).toLocaleString()}
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap">
                             {product.city}
                           </td>
+
                           <td className="px-3 py-4 whitespace-nowrap">
-                            {product.bedrooms}
+                            {product.roi}%
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap">
-                            {product.bathrooms}
+                            {product.pmi}
+                          </td>
+                          <td className="px-3 py-4 whitespace-nowrap">
+                            {product.area} sq ft
+                          </td>
+                          <td className="px-3 py-4 whitespace-nowrap">
+                            {product.occupancyRate}%
+                          </td>
+
+                          <td className="px-3 py-4 whitespace-nowrap">
+                            {product.rentIncrease}%
+                          </td>
+                          <td className="px-3 py-4 whitespace-nowrap">
+                            <img
+                              className="w-24 object-contain"
+                              src={VENDOR_URLS[product.vendor]}
+                              alt={product.vendor}
+                            />
                           </td>
                         </tr>
                       ))}
