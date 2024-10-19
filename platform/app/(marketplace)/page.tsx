@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Signup from "../accounts/signup/page";
-import Sidebar from "../sidebar/page";
-import { IoMenu } from "react-icons/io5";
-import { useState } from "react";
-
-export default function Home() {
-  return (
-    <div>
-      <Sidebar />
-      {/* <Signup /> */}
-=======
 "use client";
 
 import { Fragment, useState } from "react";
@@ -413,7 +399,7 @@ export default function Example() {
 
                 <div className="flex items-center space-x-6">
                   <a
-                    href="#"
+                    href="accounts/login"
                     className="text-sm font-medium text-white hover:text-gray-100"
                   >
                     Sign in
@@ -697,9 +683,10 @@ export default function Example() {
         <main>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div className="py-24 text-center">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                New Arrivals
-              </h1>
+              <img
+                src="/images/logo.png"
+                style={{ marginLeft: "auto", marginRight: "auto" }}
+              />
               <p className="mx-auto mt-4 max-w-3xl text-base text-gray-500">
                 Thoughtfully designed objects for the workspace, home, and
                 travel.
@@ -1098,7 +1085,6 @@ export default function Example() {
           </div>
         </footer>
       </div>
->>>>>>> c32779ec67bcf5b28fb3be8fa09ea91443834e77
     </div>
   );
 }

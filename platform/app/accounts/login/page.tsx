@@ -3,15 +3,18 @@ import React, { useState } from "react";
 import { auth } from "../../../services/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
+// import { useRouter } from "next/router";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const router = useRouter();
 
   async function login() {
     signInWithEmailAndPassword(auth, email, password).then(() =>
       console.log("logged in")
     );
+    // router.push("/dashboard/page");
   }
 
   return (
