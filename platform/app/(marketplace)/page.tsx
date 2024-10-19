@@ -31,6 +31,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/outline";
+import { PROPERTY_DATA } from "@/constants/property-data";
 
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"];
 const navigation = {
@@ -170,167 +171,22 @@ const filters = [
   },
 ];
 
-// Update the product type definition
+// Update the Product type definition to match PROPERTY_DATA structure
 type Product = {
   id: number;
+  pcm: string;
   name: string;
-  href: string;
-  price: string;
-  imageSrc: string;
-  imageAlt: string;
-  location: string;
-  roi: string;
-  income: string;
-  area: string;
-  occupancy: string;
-  vendor: string;
-  rentIncrease: string;
+  description: string;
+  postcode: string;
+  city: string;
+  bedrooms: string;
+  bathrooms: string;
+  imageUrls: string[];
 };
 
-// Update your products data to match this new structure
-const products1: Product[] = [
-  {
-    id: 1,
-    name: "Cozy Suburban Home",
-    href: "/1",
-    price: "$350,000",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt:
-      "Front view of a cozy suburban house with a well-maintained garden.",
-    location: "London, SW1A 1AA",
-    roi: "7.2%",
-    income: "$2,100/mo",
-    area: "150m²",
-    occupancy: "98%",
-    vendor: "LondonHomes Ltd.",
-    rentIncrease: "3% annually",
-  },
-  {
-    id: 2,
-    name: "Modern City Apartment",
-    href: "/2",
-    price: "$450,000",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt: "Modern apartment with city skyline view.",
-    location: "Manchester, M1 1AD",
-    roi: "6.8%",
-    income: "$2,550/mo",
-    area: "85m²",
-    occupancy: "96%",
-    vendor: "CityLiving Properties",
-    rentIncrease: "2.5% annually",
-  },
-  {
-    id: 3,
-    name: "Charming Countryside Cottage",
-    href: "/3",
-    price: "$275,000",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt: "Quaint cottage in a picturesque countryside setting.",
-    location: "Cotswolds, GL54 2BY",
-    roi: "5.9%",
-    income: "$1,350/mo",
-    area: "120m²",
-    occupancy: "92%",
-    vendor: "RuralRetreats Ltd.",
-    rentIncrease: "2% annually",
-  },
-  {
-    id: 4,
-    name: "Luxury Penthouse",
-    href: "/4",
-    price: "$1,200,000",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt: "Luxurious penthouse with panoramic city views.",
-    location: "London, W1J 7NB",
-    roi: "4.5%",
-    income: "$4,500/mo",
-    area: "250m²",
-    occupancy: "95%",
-    vendor: "PremiumProperties UK",
-    rentIncrease: "3.5% annually",
-  },
-  {
-    id: 5,
-    name: "Seaside Bungalow",
-    href: "/5",
-    price: "$320,000",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt: "Cozy bungalow with direct access to the beach.",
-    location: "Brighton, BN1 2FN",
-    roi: "6.5%",
-    income: "$1,750/mo",
-    area: "100m²",
-    occupancy: "97%",
-    vendor: "CoastalHomes Ltd.",
-    rentIncrease: "2.8% annually",
-  },
-  {
-    id: 6,
-    name: "Student Housing Complex",
-    href: "/6",
-    price: "$2,500,000",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt: "Modern student housing complex near university.",
-    location: "Oxford, OX1 2JD",
-    roi: "8.2%",
-    income: "$17,000/mo",
-    area: "1500m²",
-    occupancy: "99%",
-    vendor: "UniAccom Ltd.",
-    rentIncrease: "4% annually",
-  },
-];
-const products2 = [
-  {
-    id: 7,
-    name: "Seaside Villa",
-    href: "/7",
-    price: "$550,000",
-    description:
-      "ROI: 8.1% | Brighton, BN1 1EE | Income: $3,700/mo | 200m² | 97% occupied",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt: "Luxurious seaside villa with panoramic ocean views.",
-    vendor: "CoastalProperties Ltd.",
-    rentIncrease: "3.5% annually",
-  },
-  {
-    id: 8,
-    name: "City Center Loft",
-    href: "/8",
-    price: "$425,000",
-    description:
-      "ROI: 7.5% | Birmingham, B1 1BB | Income: $2,650/mo | 110m² | 96% occupied",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt:
-      "Spacious city center loft with exposed brick walls and high ceilings.",
-    vendor: "MetroHomes Co.",
-    rentIncrease: "3% annually",
-  },
-  {
-    id: 9,
-    name: "Suburban Family Home",
-    href: "/9",
-    price: "$395,000",
-    description:
-      "ROI: 6.7% | Bristol, BS1 1AA | Income: $2,200/mo | 180m² | 94% occupied",
-    imageSrc:
-      "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg",
-    imageAlt:
-      "Large suburban family home with a spacious backyard and two-car garage.",
-    vendor: "FamilyNest Realty",
-    rentIncrease: "2.8% annually",
-  },
-  // More products...
-];
+// Replace products1 with PROPERTY_DATA
+const products = PROPERTY_DATA;
+
 const footerNavigation = {
   products: [
     { name: "Bags", href: "#" },
@@ -964,39 +820,31 @@ export default function Example() {
 
               {isGridView ? (
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-                  {products1.map((product) => (
-                    <a key={product.id} href={product.href} className="group">
+                  {products.map((product) => (
+                    <a
+                      key={product.id}
+                      href={`/${product.id}`}
+                      className="group"
+                    >
                       <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-lg">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={product.imageUrls[0]}
+                          alt={product.name}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />
                       </div>
                       <div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
                         <h3>{product.name}</h3>
-                        <p>{product.price}</p>
+                        <p>{product.pcm}</p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
-                        Location: {product.location}
+                        Location: {product.city}
                       </p>
                       <p className="mt-1 text-sm text-gray-500">
-                        ROI: {product.roi}
+                        Bedrooms: {product.bedrooms}
                       </p>
                       <p className="mt-1 text-sm text-gray-500">
-                        Income: {product.income}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Area: {product.area}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Occupancy: {product.occupancy}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Vendor: {product.vendor}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Rent Increase: {product.rentIncrease}
+                        Bathrooms: {product.bathrooms}
                       </p>
                     </a>
                   ))}
@@ -1034,47 +882,23 @@ export default function Example() {
                           scope="col"
                           className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          ROI
+                          Bedrooms
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Income
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Area
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Occupancy
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Vendor
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Rent Increase
+                          Bathrooms
                         </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {products1.map((product) => (
+                      {products.map((product) => (
                         <tr key={product.id}>
                           <td className="px-3 py-4 whitespace-nowrap">
                             <img
-                              src={product.imageSrc}
-                              alt={product.imageAlt}
+                              src={product.imageUrls[0]}
+                              alt={product.name}
                               className="h-16 w-16 object-cover"
                             />
                           </td>
@@ -1082,28 +906,16 @@ export default function Example() {
                             {product.name}
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap">
-                            {product.price}
+                            {product.pcm}
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap">
-                            {product.location}
+                            {product.city}
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap">
-                            {product.roi}
+                            {product.bedrooms}
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap">
-                            {product.income}
-                          </td>
-                          <td className="px-3 py-4 whitespace-nowrap">
-                            {product.area}
-                          </td>
-                          <td className="px-3 py-4 whitespace-nowrap">
-                            {product.occupancy}
-                          </td>
-                          <td className="px-3 py-4 whitespace-nowrap">
-                            {product.vendor}
-                          </td>
-                          <td className="px-3 py-4 whitespace-nowrap">
-                            {product.rentIncrease}
+                            {product.bathrooms}
                           </td>
                         </tr>
                       ))}
@@ -1151,54 +963,6 @@ export default function Example() {
                 >
                   View the collection
                 </a>
-              </div>
-            </section>
-
-            <section
-              aria-labelledby="more-products-heading"
-              className="mt-16 pb-24"
-            >
-              <h2 id="more-products-heading" className="sr-only">
-                More products
-              </h2>
-
-              <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                {products2.map((product) => (
-                  <div key={product.id} className="group relative">
-                    <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                      <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
-                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                      />
-                    </div>
-                    <div className="mt-4 flex justify-between">
-                      <div>
-                        <h3 className="text-sm text-gray-700">
-                          <a href={product.href}>
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0"
-                            />
-                            {product.name}
-                          </a>
-                        </h3>
-                        <p className="mt-1 text-sm text-gray-500">
-                          {product.description}
-                        </p>
-                      </div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {product.price}
-                      </p>
-                    </div>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Vendor: {product.vendor}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Rent Increase: {product.rentIncrease}
-                    </p>
-                  </div>
-                ))}
               </div>
             </section>
           </div>

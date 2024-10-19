@@ -31,6 +31,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
+import { useParams } from "next/navigation";
+import { PROPERTY_DATA } from "@/constants/property-data";
 
 const navigation = {
   categories: [
@@ -227,65 +229,6 @@ const navigation = {
     { name: "Stores", href: "#" },
   ],
 };
-const product = {
-  name: "Zip Tote Basket",
-  price: "$140",
-  rating: 4,
-  images: [
-    {
-      id: 1,
-      name: "Angled view",
-      src: "https://tailwindui.com/plus/img/ecommerce-images/product-page-03-product-01.jpg",
-      alt: "Angled front view with bag zipped and handles upright.",
-    },
-    // More images...
-  ],
-  colors: [
-    {
-      name: "Washed Black",
-      bgColor: "bg-gray-700",
-      selectedColor: "ring-gray-700",
-    },
-    { name: "White", bgColor: "bg-white", selectedColor: "ring-gray-400" },
-    {
-      name: "Washed Gray",
-      bgColor: "bg-gray-500",
-      selectedColor: "ring-gray-500",
-    },
-  ],
-  description: `
-    <p>The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.</p>
-  `,
-  details: [
-    {
-      name: "Features",
-      items: [
-        "Multiple strap configurations",
-        "Spacious interior with top zip",
-        "Leather handle and tabs",
-        "Interior dividers",
-        "Stainless strap loops",
-        "Double stitched construction",
-        "Water-resistant",
-      ],
-    },
-    // More sections...
-  ],
-};
-const relatedProducts = [
-  {
-    id: 1,
-    name: "Zip Tote Basket",
-    color: "White and black",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/plus/img/ecommerce-images/product-page-03-related-product-01.jpg",
-    imageAlt:
-      "Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls.",
-    price: "$140",
-  },
-  // More products...
-];
 const footerNavigation = {
   products: [
     { name: "Bags", href: "#" },
@@ -318,6 +261,50 @@ function classNames(...classes: string[]): string {
 }
 
 export default function Example() {
+  const params = useParams();
+  const productId = parseInt(params.productId as string, 10);
+
+  const property = PROPERTY_DATA.find((p) => p.id === productId);
+
+  if (!property) {
+    return <div>Property not found</div>;
+  }
+
+  // Replace the hardcoded product data with the property data
+  const product = {
+    name: property.name,
+    price: property.pcm,
+    rating: 4, // You might want to add a rating field to your PROPERTY_DATA if you have this information
+    images: property.imageUrls.map((url, index) => ({
+      id: index + 1,
+      name: `Image ${index + 1}`,
+      src: url,
+      alt: `Image ${index + 1} of ${property.name}`,
+    })),
+    colors: [], // Remove or adjust if not applicable
+    sizes: [], // Remove or adjust if not applicable
+    description: property.description,
+    highlights: [
+      `${property.bedrooms} bedroom${property.bedrooms !== "1" ? "s" : ""}`,
+      `${property.bathrooms} bathroom${property.bathrooms !== "1" ? "s" : ""}`,
+      `Located in ${property.city}`,
+      `Postcode: ${property.postcode}`,
+    ],
+    details: [
+      {
+        name: "Features",
+        items: [
+          `${property.bedrooms} bedroom${property.bedrooms !== "1" ? "s" : ""}`,
+          `${property.bathrooms} bathroom${
+            property.bathrooms !== "1" ? "s" : ""
+          }`,
+          "For more details, please see the full description",
+        ],
+      },
+      // Add more details as needed
+    ],
+  };
+
   const [open, setOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
 
@@ -678,7 +665,7 @@ export default function Example() {
           {/* Product */}
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
             {/* Image gallery */}
-            <TabGroup className="flex flex-col-reverse">
+            <TabGroup as="div" className="flex flex-col-reverse">
               {/* Image selector */}
               <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
                 <TabList className="grid grid-cols-4 gap-6">
@@ -774,18 +761,16 @@ export default function Example() {
                     >
                       {product.colors.map((color) => (
                         <Radio
-                          key={color.name}
+                          key={"red"}
                           value={color}
-                          aria-label={color.name}
+                          aria-label={"red"}
                           className={classNames(
-                            color.selectedColor,
                             "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none data-[checked]:ring-2 data-[focus]:data-[checked]:ring-offset-1"
                           )}
                         >
                           <span
                             aria-hidden="true"
                             className={classNames(
-                              color.bgColor,
                               "h-8 w-8 rounded-full border border-black border-opacity-10"
                             )}
                           />
@@ -863,49 +848,53 @@ export default function Example() {
               id="related-heading"
               className="text-xl font-bold text-gray-900"
             >
-              Customers also bought
+              Other properties you may like
             </h2>
 
             <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-              {relatedProducts.map((product) => (
-                <div key={product.id}>
-                  <div className="relative">
-                    <div className="relative h-72 w-full overflow-hidden rounded-lg">
-                      <img
-                        alt={product.imageAlt}
-                        src={product.imageSrc}
-                        className="h-full w-full object-cover object-center"
-                      />
+              {PROPERTY_DATA.filter((p) => p.id !== productId)
+                .slice(0, 4)
+                .map((relatedProperty) => (
+                  <div key={relatedProperty.id}>
+                    <div className="relative">
+                      <div className="relative h-72 w-full overflow-hidden rounded-lg">
+                        <img
+                          src={relatedProperty.imageUrls[0]}
+                          alt={relatedProperty.name}
+                          className="h-full w-full object-cover object-center"
+                        />
+                      </div>
+                      <div className="relative mt-4">
+                        <h3 className="text-sm font-medium text-gray-900">
+                          {relatedProperty.name}
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          {relatedProperty.city}
+                        </p>
+                      </div>
+                      <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
+                        />
+                        <p className="relative text-lg font-semibold text-white">
+                          {relatedProperty.pcm}
+                        </p>
+                      </div>
                     </div>
-                    <div className="relative mt-4">
-                      <h3 className="text-sm font-medium text-gray-900">
-                        {product.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {product.color}
-                      </p>
-                    </div>
-                    <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                      <div
-                        aria-hidden="true"
-                        className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-                      />
-                      <p className="relative text-lg font-semibold text-white">
-                        {product.price}
-                      </p>
+                    <div className="mt-6">
+                      <a
+                        href={`/${relatedProperty.id}`}
+                        className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
+                      >
+                        View property
+                        <span className="sr-only">
+                          , {relatedProperty.name}
+                        </span>
+                      </a>
                     </div>
                   </div>
-                  <div className="mt-6">
-                    <a
-                      href={product.href}
-                      className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
-                    >
-                      Add to bag
-                      <span className="sr-only">, {product.name}</span>
-                    </a>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </section>
         </div>
