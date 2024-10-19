@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { auth } from "../../../services/firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import Link from "next/link";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +24,18 @@ const Signup: React.FC = () => {
         justifyContent: "center",
       }}
     >
+      <Link href="/">
+        <IoChevronBackOutline
+          style={{
+            color: "gray",
+            fontSize: 48,
+            position: "absolute",
+            top: 10,
+            left: 10,
+          }}
+        />
+      </Link>
+
       <h1 style={{ fontWeight: "bold", fontSize: 40 }}>Sign up</h1>
       <form style={{ flexDirection: "column" }} onSubmit={signup}>
         <div
@@ -69,11 +83,37 @@ const Signup: React.FC = () => {
         </div>
 
         <button
-          style={{ backgroundColor: "green", borderRadius: 5 }}
+          style={{
+            backgroundColor: "#588157",
+            borderRadius: 5,
+            paddingTop: 7,
+            paddingBottom: 7,
+            paddingLeft: 50,
+            paddingRight: 50,
+            borderWidth: 0.5,
+            color: "white",
+            fontWeight: "600",
+          }}
           type="submit"
         >
-          Sign up
+          Signup
         </button>
+
+        <div style={{ marginTop: 15 }}>
+          <span>
+            <text> Already have an account? </text>
+            <Link
+              href={"/accounts/login"}
+              style={{
+                textDecoration: "underline",
+                color: "black",
+                fontWeight: "600",
+              }}
+            >
+              Login
+            </Link>
+          </span>
+        </div>
       </form>
     </div>
   );
