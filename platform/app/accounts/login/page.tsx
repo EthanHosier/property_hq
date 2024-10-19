@@ -3,18 +3,18 @@ import React, { useState } from "react";
 import { auth } from "../../../services/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
+import { IoChevronBackOutline } from "react-icons/io5";
 
-export default function Login() {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const router = useRouter();
 
   async function login() {
-    signInWithEmailAndPassword(auth, email, password).then(() =>
-      console.log("logged in")
-    );
-    // router.push("/dashboard/page");
+    await signInWithEmailAndPassword(auth, email, password).then(() => {});
+    console.log("logged in");
+    useRouter().push("/");
   }
 
   return (
@@ -27,6 +27,17 @@ export default function Login() {
         justifyContent: "center",
       }}
     >
+      <Link href="/">
+        <IoChevronBackOutline
+          style={{
+            color: "gray",
+            fontSize: 48,
+            position: "absolute",
+            top: 10,
+            left: 10,
+          }}
+        />
+      </Link>
       <h1 style={{ fontWeight: "bold", fontSize: 40 }}>Login</h1>
       <form style={{ flexDirection: "column" }} onSubmit={login}>
         <div
@@ -107,4 +118,6 @@ export default function Login() {
       </form>
     </div>
   );
-}
+};
+
+export default Login;
