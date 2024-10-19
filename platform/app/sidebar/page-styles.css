@@ -1,0 +1,20 @@
+.sidebar-default {
+  width: 5vw;
+  height: 100vh;
+  background-color: #588157;
+  flex-direction: column;
+  /* padding-left: 20; */
+  border-top-right-radius: 5;
+  padding-left: auto;
+  /* margin-right: auto; */
+  /* align-content: center; */
+  justify-content: center;
+}
+
+.sidebar-open {
+  width: 25vw;
+  height: 100vh;
+  background-color: #588157;
+  flex-direction: column;
+  padding-left: 10;
+}
