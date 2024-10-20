@@ -5,10 +5,12 @@ import { auth } from "../../../services/firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useAuth } from "../../hooks/useAuth";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useAuth();
 
   async function signup() {
     return await createUserWithEmailAndPassword(auth, email, password);

@@ -5,16 +5,30 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useAuth } from "../../hooks/useAuth";
+import { setPersistence, browserLocalPersistence } from "firebase/auth";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useAuth();
+
   // const router = useRouter();
 
   async function login() {
-    await signInWithEmailAndPassword(auth, email, password).then(() => {});
-    console.log("logged in");
-    useRouter().push("/");
+    // In your sign-in function or initialization logic
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        // Existing sign-in logic
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+      .catch((error) => {
+        console.error("Error setting persistence:", error);
+      });
+
+    // await signInWithEmailAndPassword(auth, email, password).then(() => {});
+    // console.log("logged in");
+    user && useRouter().push("/");
   }
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Link from "next/link";
 import {
   Dialog,
   DialogBackdrop,
@@ -397,6 +398,11 @@ export default function Example() {
                   </div>
                 </form>
 
+                <div>
+                  <Link href="/dashboard" style={{ color: "white" }}>
+                    Dashboard
+                  </Link>
+                </div>
                 <div className="flex items-center space-x-6">
                   <a
                     href="accounts/login"
