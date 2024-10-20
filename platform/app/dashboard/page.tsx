@@ -37,6 +37,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/outline";
 import { PROPERTY_DATA } from "@/constants/property-data";
+import Link from "next/link";
 
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"];
 const navigation = {
@@ -389,31 +390,44 @@ export default function Dashboard() {
             <div className="bg-gray-900">
               <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 {/* Currency selector */}
-                <form>
-                  <div>
-                    <label htmlFor="desktop-currency" className="sr-only">
-                      Currency
-                    </label>
-                    <div className="group relative -ml-2 rounded-md border-transparent bg-gray-900 focus-within:ring-2 focus-within:ring-white">
-                      <select
-                        id="desktop-currency"
-                        name="currency"
-                        className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
-                      >
-                        {currencies.map((currency) => (
-                          <option key={currency}>{currency}</option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                        <ChevronDownIcon
-                          aria-hidden="true"
-                          className="h-5 w-5 text-gray-300"
-                        />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <form>
+                    <div>
+                      <label htmlFor="desktop-currency" className="sr-only">
+                        Currency
+                      </label>
+                      <div className="group relative -ml-2 rounded-md border-transparent bg-gray-900 focus-within:ring-2 focus-within:ring-white">
+                        <select
+                          id="desktop-currency"
+                          name="currency"
+                          className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
+                        >
+                          {currencies.map((currency) => (
+                            <option key={currency}>{currency}</option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
+                          <ChevronDownIcon
+                            aria-hidden="true"
+                            className="h-5 w-5 text-gray-300"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </form>
+                  </form>
 
+                  <div>
+                    <Link href="/" style={{ color: "white", marginLeft: 20 }}>
+                      Home
+                    </Link>
+                  </div>
+                </div>
                 <div className="flex items-center space-x-6">
                   <a
                     href="accounts/login"
@@ -569,7 +583,7 @@ export default function Dashboard() {
 
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-                  Investment Opportunities
+                  Your Investments
                 </h2>
                 <div className="flex items-center">
                   <Menu as="div" className="relative inline-block text-left">

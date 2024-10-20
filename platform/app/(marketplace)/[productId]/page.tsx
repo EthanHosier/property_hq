@@ -33,6 +33,7 @@ import {
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useParams } from "next/navigation";
 import { PROPERTY_DATA } from "@/constants/property-data";
+import MintNFT from "@/components/mint-nft";
 
 const navigation = {
   categories: [
@@ -270,10 +271,15 @@ export default function Example() {
     return <div>Property not found</div>;
   }
 
+  // Convert monthly price to yearly price
+  const monthlyPrice = parseInt(property.pcm.replace(/[^0-9]/g, ""), 10);
+  const yearlyPrice = monthlyPrice * 12;
+  const formattedYearlyPrice = `£${yearlyPrice.toLocaleString()} per year`;
+
   // Replace the hardcoded product data with the property data
   const product = {
     name: property.name,
-    price: property.pcm,
+    price: formattedYearlyPrice,
     rating: 4, // You might want to add a rating field to your PROPERTY_DATA if you have this information
     images: property.imageUrls.map((url, index) => ({
       id: index + 1,
@@ -289,6 +295,12 @@ export default function Example() {
       `${property.bathrooms} bathroom${property.bathrooms !== "1" ? "s" : ""}`,
       `Located in ${property.city}`,
       `Postcode: ${property.postcode}`,
+      `Area: ${property.area} sq ft`,
+      `ROI: ${property.roi}%`,
+      `Passive Monthly Income: £${property.pmi}`,
+      `Occupancy Rate: ${property.occupancyRate}%`,
+      `Rent Increase: ${property.rentIncrease}% per year`,
+      `Vendor: ${property.vendor}`,
     ],
     details: [
       {
@@ -298,7 +310,12 @@ export default function Example() {
           `${property.bathrooms} bathroom${
             property.bathrooms !== "1" ? "s" : ""
           }`,
-          "For more details, please see the full description",
+          `Area: ${property.area} sq ft`,
+          `ROI: ${property.roi}%`,
+          `Passive Monthly Income: £${property.pmi}`,
+          `Occupancy Rate: ${property.occupancyRate}%`,
+          `Rent Increase: ${property.rentIncrease}% per year`,
+          `Vendor: ${property.vendor}`,
         ],
       },
       // Add more details as needed
@@ -717,28 +734,6 @@ export default function Example() {
                 </p>
               </div>
 
-              {/* Reviews */}
-              <div className="mt-3">
-                <h3 className="sr-only">Reviews</h3>
-                <div className="flex items-center">
-                  <div className="flex items-center">
-                    {[0, 1, 2, 3, 4].map((rating) => (
-                      <StarIcon
-                        key={rating}
-                        aria-hidden="true"
-                        className={classNames(
-                          product.rating > rating
-                            ? "text-indigo-500"
-                            : "text-gray-300",
-                          "h-5 w-5 flex-shrink-0"
-                        )}
-                      />
-                    ))}
-                  </div>
-                  <p className="sr-only">{product.rating} out of 5 stars</p>
-                </div>
-              </div>
-
               <div className="mt-6">
                 <h3 className="sr-only">Description</h3>
 
@@ -751,8 +746,6 @@ export default function Example() {
               <form className="mt-6">
                 {/* Colors */}
                 <div>
-                  <h3 className="text-sm text-gray-600">Color</h3>
-
                   <fieldset aria-label="Choose a color" className="mt-2">
                     <RadioGroup
                       value={selectedColor}
@@ -781,12 +774,13 @@ export default function Example() {
                 </div>
 
                 <div className="mt-10 flex">
-                  <button
+                  {/* <button
                     type="submit"
                     className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                   >
-                    Add to bag
-                  </button>
+                    Invest
+                  </button> */}
+                  <MintNFT />
 
                   <button
                     type="button"

@@ -5,118 +5,106 @@ import { auth } from "../../../services/firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { useAuth } from "../../hooks/useAuth";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
-  async function signup() {
-    return await createUserWithEmailAndPassword(auth, email, password);
+  async function signup(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log("User signed up successfully");
+      // You can add navigation or other post-signup logic here
+    } catch (error) {
+      console.error("Error signing up:", error);
+      // Handle signup errors (e.g., display error message to user)
+    }
   }
 
   return (
-    <div
-      style={{
-        height: "100%",
-        maxWidth: "400px",
-        margin: "50px auto",
-        textAlign: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <Link href="/">
-        <IoChevronBackOutline
-          style={{
-            color: "gray",
-            fontSize: 48,
-            position: "absolute",
-            top: 10,
-            left: 10,
-          }}
-        />
+        <IoChevronBackOutline style={{ fontSize: 50, color: "gray" }} />
       </Link>
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          alt="Your Company"
+          src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+          className="mx-auto h-10 w-auto"
+        />
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Sign up for an account
+        </h2>
+      </div>
 
-      <h1 style={{ fontWeight: "bold", fontSize: 40 }}>Sign up</h1>
-      <form style={{ flexDirection: "column" }} onSubmit={signup}>
-        <div
-          style={{
-            borderColor: "black",
-            borderWidth: 0.5,
-            marginBottom: 20,
-            borderRadius: 5,
-          }}
-        >
-          <input
-            style={{
-              width: "100%",
-              paddingLeft: 10,
-              paddingTop: 5,
-              paddingBottom: 5,
-            }}
-            type="text"
-            value={email}
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div
-          style={{
-            borderColor: "black",
-            borderWidth: 0.5,
-            marginBottom: 30,
-            borderRadius: 5,
-          }}
-        >
-          <input
-            style={{
-              width: "100%",
-              paddingLeft: 10,
-              paddingTop: 5,
-              paddingBottom: 5,
-            }}
-            type="text"
-            value={password}
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button
-          style={{
-            backgroundColor: "#588157",
-            borderRadius: 5,
-            paddingTop: 7,
-            paddingBottom: 7,
-            paddingLeft: 50,
-            paddingRight: 50,
-            borderWidth: 0.5,
-            color: "white",
-            fontWeight: "600",
-          }}
-          type="submit"
-        >
-          Signup
-        </button>
-
-        <div style={{ marginTop: 15 }}>
-          <span>
-            <text> Already have an account? </text>
-            <Link
-              href={"/accounts/login"}
-              style={{
-                textDecoration: "underline",
-                color: "black",
-                fontWeight: "600",
-              }}
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={signup} className="space-y-6">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Login
-            </Link>
-          </span>
-        </div>
-      </form>
+              Email address
+            </label>
+            <div className="mt-2">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
+            </div>
+            <div className="mt-2">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                autoComplete="new-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Sign up
+            </button>
+          </div>
+        </form>
+
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Already a member?{" "}
+          <Link
+            href="/accounts/login"
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
+            Sign in
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
