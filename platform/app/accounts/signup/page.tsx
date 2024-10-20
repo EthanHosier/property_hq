@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { auth } from "../../../services/firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const { user } = useAuth();
 
   async function signup(e: React.FormEvent) {
     e.preventDefault();
@@ -23,6 +25,9 @@ const Signup: React.FC = () => {
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <Link href="/">
+        <IoChevronBackOutline style={{ fontSize: 50, color: "gray" }} />
+      </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"

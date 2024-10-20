@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { auth } from "../../../services/firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,9 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <Link href="/">
+        <IoChevronBackOutline style={{ fontSize: 50, color: "gray" }} />
+      </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"
